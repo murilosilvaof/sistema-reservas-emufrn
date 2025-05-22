@@ -1,5 +1,6 @@
 # sistema-reservas-emufrn
-Sistema de Reservas de Espaços - EMUFRN
+Sistema de Reservas Marcato - EMUFRN
+![image](https://github.com/user-attachments/assets/777ea63d-e20d-4356-8ce8-7593dc686caa)
 
 Este projeto é um sistema desenvolvido para a **Escola de Música da UFRN (EMUFRN)** com o objetivo de facilitar o agendamento de espaços como auditórios para eventos, ensaios e recitais.
 
