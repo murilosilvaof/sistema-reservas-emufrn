@@ -1,0 +1,206 @@
+
+/* Reset e fundo bonito */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #f4f6f9 0%, #e8f6f9 100%);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Loader inicial */
+#loader {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #fff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-size: 22px;
+  color: #1daad1;
+}
+
+/* Cabeçalho */
+.header {
+  text-align: center;
+  background-color: #24292e;
+  color: #ccc;
+  padding: 20px;
+  border-radius: 0 0 12px 12px;
+}
+
+.banner {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+.top-bar {
+  background-color: #006495;
+  color: white;
+  padding: 5px 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.logo-marcato {
+  height: 90px;
+}
+
+.logo-divider {
+  width: 2px;
+  height: 40px;
+  background-color: white;
+}
+
+.logo-emufrn {
+  height: 45px;
+}
+
+.user-id {
+  font-size: 14px;
+  color: white;
+}
+
+
+/* Área de seleção bonita */
+.select-area {
+  max-width: 1000px;
+  margin: 30px auto 20px auto;
+  background: #ffffff;
+  padding: 30px 20px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+}
+
+.select-area label {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.select-area select {
+  width: 320px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid #1daad1;
+  border-radius: 8px;
+  background-color: #fafafa;
+  transition: all 0.3s;
+}
+
+.select-area select:hover {
+  background-color: #f0f0f0;
+  border-color: #1596a8;
+}
+
+/* Skeleton Loading */
+#loading {
+  margin: 40px auto;
+}
+
+/* Calendário bonito */
+.calendar-container {
+  width: 95%;
+  max-width: 1400px;
+  margin: 20px auto 40px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0px 6px 18px rgba(0,0,0,0.08);
+}
+
+#calendar {
+  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+}
+#calendarContainer {
+  transition: opacity 0.5s ease;
+}
+
+/* Cada dia */
+.day {
+  border: 1px solid #ccc;
+  background: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+
+.day:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.day h4 {
+  margin: 0 0 10px 0;
+  font-size: 18px;
+  color: #333;
+}
+
+/* Slots */
+.slot {
+  padding: 8px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 0.95em;
+}
+
+/* Slots disponíveis */
+.livre {
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.livre:hover {
+  background-color: #45a049;
+}
+
+/* Slots ocupados */
+.ocupado {
+  background-color: #ff4c4c;
+  color: white;
+  cursor: not-allowed;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .select-area select {
+    width: 90%;
+  }
+
+  #calendar {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  }
+  
+}
+img {
+  max-width: 100%;
+  height: auto;
+} /*Dias do calendario*/
+.day.hoje {
+  border: 2px solid #1596a8;
+  background-color: #e0f7fa;
+}
+

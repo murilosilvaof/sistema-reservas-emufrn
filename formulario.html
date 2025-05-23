@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Formulário de Reserva</title>
+  <style>
+    body {
+      background: #cdd3dc;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 30px;
+    }
+    
+  
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.1);
+    }
+  
+    .espaco-info {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .espaco-info img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+  
+    .descricao {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+  
+    .descricao small {
+      display: block;
+      font-size: 14px;
+      color: #666;
+      margin-top: 5px;
+    }
+  
+    form {
+      margin-top: 20px;
+    }
+  
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #444;
+    }
+  
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      background: #fafafa;
+    }
+  
+    textarea {
+      resize: vertical;
+      height: 100px;
+    }
+  
+    button {
+  margin-top: 20px;
+  width: 100%;
+  background: linear-gradient(135deg, #1daad1 0%, #1596a8 100%);
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  padding: 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #1596a8 0%, #117788 100%);
+  transform: scale(1.05);
+}
+
+    
+  </style>
+  
+</head>
+<body>
+
+  <div class="container">
+    <div class="espaco-info">
+<div class="topo-logo" style="background-color: #006699;
+ padding: 0; border-radius: 10px; text-align: center; margin-bottom: 20px;">
+  <img 
+    src="assets/logo-form-emufrn.png" 
+    alt="Topo Marcato EMUFRN" 
+    style="width: 100%; max-width: 1000px; height: auto; display: block; margin: auto; border-radius: 10px;"
+  />
+</div>
+
+
+<div class="descricao" id="descricaoEspaco" style="text-align: center; margin-bottom: 20px;">
+  <strong>Auditório Onofre Lopes</strong><br>
+  Capacidade: 225 lugares
+</div>
+
+    </div>
+    <div class="formulario">
+      <h2>Formulário de Reserva</h2>
+      <form action="processa_reserva.php" method="POST">
+        <input type="hidden" name="dia" id="diaInput" />
+        <input type="hidden" name="horario" id="horarioInput" />
+        <input type="hidden" name="sala" id="salaInput" />
+
+        <div class="form-group">
+          <label>Tipo de Evento:</label>
+          <select name="tipo_evento" required>
+            <option>Ensaio</option>
+            <option>Apresentação</option>
+            <option>Recital</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Perfil:</label>
+          <select name="perfil" required>
+            <option>Aluno</option>
+            <option>Professor</option>
+            <option>Técnico</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Nome Completo:</label>
+          <input name="nome" required />
+        </div>
+
+        <div class="form-group">
+          <label>Tipo de Instrumento:</label>
+          <input name="instrumento" required />
+        </div>
+
+        <div class="form-group">
+          <label>Matrícula:</label>
+          <input name="matricula" required />
+        </div>
+
+        <div class="form-group">
+          <label>Email:</label>
+          <input type="email" name="email" required />
+        </div>
+
+        <div class="form-group">
+          <label>Observações:</label>
+          <textarea name="obs"></textarea>
+        </div>
+
+        <button type="submit">Enviar Reserva</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const url = new URLSearchParams(window.location.search);
+    const sala = url.get("sala");
+    const dia = url.get("dia");
+    const horario = url.get("horario");
+  
+    document.getElementById("diaInput").value = dia;
+    document.getElementById("horarioInput").value = horario;
+    document.getElementById("salaInput").value = sala;
+  
+    const img = document.getElementById("fotoEspaco");
+    const desc = document.getElementById("descricaoEspaco");
+  
+    const espacos = {
+      "Auditório Onofre Lopes": {
+        imagem: "auditorioemufrn.jpg",
+        descricao: "Auditório Onofre Lopes ",
+        capacidade: "Capacidade: 225 lugares"
+      },
+      "Auditório Oriano de Almeida": {
+        imagem: "salaemufrn.jpg",
+        descricao: "Auditório Oriano de Almeida",
+        capacidade: "Capacidade: 70 lugares"
+      }
+    };
+  
+    if (espacos[sala]) {
+      img.src = espacos[sala].imagem;
+      desc.innerHTML = `<strong>${espacos[sala].descricao}</strong><br>${espacos[sala].capacidade}`;
+    } else {
+      img.src = "auditorioemufrn.jpg";
+      desc.innerHTML = "<strong>Espaço não identificado</strong><br>Capacidade: Indefinida";
+    }
+  </script>
+  
+</body>
+</html>
