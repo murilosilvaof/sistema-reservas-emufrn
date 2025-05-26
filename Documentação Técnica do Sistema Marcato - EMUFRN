@@ -1,110 +1,319 @@
-# 📘 Sistema Marcato - Escola de Música da UFRN
+ Introdução
 
-**Marcato** é um sistema web desenvolvido para gerenciar reservas de salas e auditórios da Escola de Música da UFRN, com confirmação por e-mail e integração ao Google Calendar institucional.
+O Marcato é um sistema web desenvolvido para gerenciar a reserva de espaços da Escola de Música da UFRN. Seu principal objetivo é automatizar o processo de agendamento, envio de e-mails de confirmação e integração com o Google Calendar institucional, melhorando a organização e evitando conflitos de uso dos espaços.
 
----
+A aplicação foi construída utilizando as seguintes tecnologias:
 
-## ✨ Visão Geral
+Frontend: HTML, CSS e JavaScript
 
-Este sistema permite que alunos, professores e técnicos agendem espaços da escola de forma prática, com confirmação online e sincronização automática com o Google Agenda da produção (`producao@musica.ufrn.br`).
+Backend: PHP (com Composer)
 
-Desenvolvido com:
-- PHP (com Composer)
-- JavaScript
-- MySQL
-- PHPMailer
-- Google API Client
+Banco de dados: MySQL
 
----
+E-mails: PHPMailer com SMTP
 
-## 📁 Estrutura de Arquivos
+Integração externa: Google Calendar API via OAuth 2.0
 
-| Arquivo/Pasta          | Função                                                                 |
-|------------------------|------------------------------------------------------------------------|
-| `index.html`           | Tela inicial com calendário e seleção de espaços                       |
-| `formulario.html`      | Formulário com campos de identificação e reserva                       |
-| `processa_reserva.php` | Insere a reserva no banco e envia e-mail de confirmação                |
-| `resposta.php`         | Confirma ou recusa a reserva e atualiza banco + Google Calendar        |
-| `send_email.php`       | Teste alternativo para envio de e-mail (pode ser opcional)             |
-| `get_token.php`        | Faz autenticação OAuth e gera o token do Google                        |
-| `credenciais.json`     | Credenciais da Google API (NÃO PUBLICAR no repositório)                |
-| `token.json`           | Token OAuth2 salvo após autenticação                                   |
-| `vendor/`              | Bibliotecas externas instaladas pelo Composer                          |
-| `composer.json`        | Lista de dependências do projeto                                       |
+O sistema está hospedado temporariamente na Hostinger (https://ismcursos.com/marcato) e será migrado para o servidor da UFRN após validação final.
 
----
+🗂 Estrutura do Projeto
 
-## 🛠 Banco de Dados
+Raiz do projeto (public_html/marcato/):
 
-### Tabela: `reservas_espacos`
+index.html
 
-| Campo        | Tipo       | Descrição                           |
-|--------------|------------|--------------------------------------|
-| id           | INT (PK)   | Identificador da reserva             |
-| nome         | VARCHAR    | Nome do solicitante                  |
-| instrumento  | VARCHAR    | Tipo de instrumento usado            |
-| matricula    | VARCHAR    | Matrícula do aluno                   |
-| email        | VARCHAR    | E-mail do solicitante                |
-| sala         | VARCHAR    | Sala ou auditório reservado          |
-| tipo_evento  | VARCHAR    | Tipo (ensaio, recital, apresentação) |
-| perfil       | VARCHAR    | Perfil: aluno, professor, técnico    |
-| dia          | DATE       | Data da reserva                      |
-| horario      | TIME       | Horário da reserva                   |
-| obs          | TEXT       | Observações / nome do evento         |
-| status       | VARCHAR    | Status: `pendente`, `confirmada`, `recusada` |
+Página principal.
 
----
+Apresenta seleção de salas e um calendário de dias do mês.
 
-## 🔐 Requisitos no Servidor
+O usuário clica em um dia e horário e é redirecionado para formulario.html com os parâmetros selecionados via URL.
 
-- PHP 7.4 ou superior
-- Suporte a `cURL` e `openssl`
-- MySQL
-- Permissão de escrita em `token.json`
-- Envio de e-mails via SMTP (porta 587)
-- Acesso ao Composer (ou upload prévio da pasta `vendor/`)
+formulario.html
 
----
+Recebe os parâmetros via URL (sala, dia, horário) e os pré-preenche.
 
-## 🧪 Como Testar
+Exibe formulário para preenchimento de:
 
-1. Acesse `index.html` no navegador
-2. Escolha espaço, data e horário
-3. Preencha o formulário com os dados da reserva
-4. Um e-mail será enviado ao responsável com dois botões: `Confirmar` e `Recusar`
-5. Ao clicar em confirmar, o sistema:
-   - Atualiza o banco (`status = confirmada`)
-   - Cria o evento na agenda Google institucional
+Nome completo
 
----
+Tipo de instrumento
 
-## 🛡 Segurança
+Matrícula
 
-- **`credenciais.json` e `token.json`** não devem ser versionados no GitHub.
-- Ideal armazená-los em diretórios protegidos no servidor.
+E-mail
 
----
+Tipo de evento
 
-## 🛠 Manutenção
+Perfil (aluno, professor, técnico)
 
-- Em caso de expiração do token, reautenticar em `get_token.php`
-- Banco pode ser exportado pelo phpMyAdmin
-- Atualizações visuais são feitas diretamente nos arquivos HTML e CSS
+Observações (nome do evento, telefone, etc.)
 
----
+Ao submeter, envia os dados para processa_reserva.php via POST.
 
-## 👤 Autor
+processa_reserva.php
 
-- **Nome:** Murilo Francisco da Silva  
-- **E-mail:** murilodevweb@gmail.com  
-- **Projeto:** Sistema Marcato - EMUFRN  
-- **Versão:** 1.0  
-- **Hospedagem atual:** https://ismcursos.com/marcato (local,atualizar para o servidor oficial)
+Conecta ao banco de dados reservas_espacos.
 
----
+Insere os dados enviados no formulário.
 
-## 📎 Licença
+Gera um ID único para a reserva.
 
-Uso institucional - Escola de Música da UFRN.  
-Não utilizar ou distribuir sem autorização da coordenação.
+Envia e-mail automático para producao@musica.ufrn.br com os dados da reserva e dois botões:
 
+✅ Confirmar Reserva → aponta para resposta.php?id={id}&acao=confirmar
+
+❌ Recusar Reserva → aponta para resposta.php?id={id}&acao=recusar
+
+Mensagem visual de sucesso ou falha é exibida ao usuário.
+
+resposta.php
+
+Recebe os parâmetros id e acao via GET.
+
+Atualiza o status da reserva no banco como confirmada ou recusada.
+
+Se a ação for "confirmar", o sistema:
+
+Acessa os dados da reserva pelo ID
+
+Cria um evento automaticamente no Google Calendar institucional usando a API do Google
+
+Exibe uma página com o resultado da ação ao responsável.
+
+send_email.php
+
+Script alternativo de envio de e-mail com base em dados de teste.
+
+Utilizado para testes de layout e envio SMTP fora do fluxo principal.
+
+get_token.php
+
+Responsável por autenticar o sistema com a API do Google.
+
+Abre a tela de autorização do Google para o administrador autorizar o uso da conta institucional (producao@musica.ufrn.br).
+
+Ao autorizar, o token de acesso é salvo no arquivo token.json.
+
+Esse token é reutilizado para inserir eventos na agenda.
+
+credenciais.json
+
+Arquivo obtido no Google Cloud Console ao criar as credenciais OAuth.
+
+Contém:
+
+client_id
+
+client_secret
+
+redirect_uri (deve ser https://dominio.com/get_token.php)
+
+Importante: nunca deve ser publicado publicamente.
+
+token.json
+
+Arquivo gerado após a autenticação bem-sucedida com a conta do Google.
+
+Contém os dados de acesso à API (token de acesso e refresh_token).
+
+Deve ter permissão de escrita no servidor.
+
+vendor/
+
+Pasta gerada automaticamente após rodar composer install.
+
+Contém todas as dependências externas do projeto, como:
+
+google/apiclient (Google Calendar)
+
+phpmailer/phpmailer (e-mails)
+
+guzzlehttp/guzzle, psr/log e outras
+
+Arquivo importante: vendor/autoload.php, necessário para carregar todas as bibliotecas.
+
+🔐 Integração com Google Calendar
+
+Acesso via OAuth 2.0
+
+Acesse o Google Cloud Console
+
+Crie um projeto chamado marcato-calendar
+
+Habilite a API Google Calendar API
+
+Vá até "Credenciais" e crie um ID do cliente OAuth 2.0
+
+Tipo: Aplicativo da Web
+
+Redirect URI: https://seusite.com/get_token.php
+
+Baixe o arquivo credenciais.json
+
+Coloque no servidor, no mesmo diretório do get_token.php
+
+Geração do Token
+
+Acesse get_token.php pela web
+
+Clique em "Autorizar acesso"
+
+Faça login com a conta institucional do Google
+
+Ao autorizar, o sistema salva token.json automaticamente
+
+Inserção de eventos
+
+O resposta.php, ao confirmar uma reserva, executa o seguinte fluxo:
+
+Lê os dados da reserva confirmada do banco
+
+Usa Google_Client com credenciais.json e token.json
+
+Cria um objeto Google_Service_Calendar_Event
+
+Preenche:
+
+summary: nome do evento (campo obs)
+
+location: nome da sala
+
+description: nome e e-mail do responsável
+
+start / end: data e horário convertidos para formato ISO
+
+Insere o evento na agenda producao@musica.ufrn.br
+
+🗃 Banco de Dados: reservas_espacos
+
+Tabela principal usada no sistema:
+
+Campo
+
+Tipo
+
+Descrição
+
+id
+
+int (PK)
+
+Identificador da reserva
+
+nome
+
+varchar
+
+Nome do solicitante
+
+instrumento
+
+varchar
+
+Tipo de instrumento
+
+matricula
+
+varchar
+
+Matrícula
+
+email
+
+varchar
+
+E-mail do solicitante
+
+sala
+
+varchar
+
+Nome do espaço
+
+tipo_evento
+
+varchar
+
+Ensaio, apresentação, recital
+
+perfil
+
+varchar
+
+Aluno, Professor, Técnico
+
+dia
+
+date
+
+Data da reserva
+
+horario
+
+time
+
+Horário da reserva
+
+obs
+
+text
+
+Observações / nome do evento
+
+status
+
+varchar
+
+pendente, confirmada ou recusada
+
+🔒 Segurança
+
+credenciais.json e token.json não devem ser expostos publicamente
+
+Arquivos devem ter permissões restritas (644) e estarem fora do diretório acessível se possível
+
+O banco de dados deve estar protegido e não exposto via URL direta
+
+🧪 Testes
+
+O sistema pode ser testado acessando o fluxo completo:
+
+index.html > formulario.html > processa_reserva.php
+
+E-mail deve chegar ao responsável
+
+Botão "Confirmar" deve acionar resposta.php com atualização no banco e inclusão no Google Agenda
+
+🧰 Requisitos do Servidor
+
+PHP 7.4 ou superior
+
+Extensões habilitadas: curl, openssl, mbstring, json
+
+Acesso a comandos Composer (ou upload manual da pasta vendor)
+
+Acesso a SMTP (porta 587 ou TLS)
+
+Permissão de escrita no arquivo token.json
+
+📌 Publicação no Servidor da UFRN
+
+Recomenda-se:
+
+Criar subdiretório marcato/ em musica.ufrn.br
+
+Configurar PHP com suporte a dependências externas
+
+Gerar token com get_token.php
+
+Armazenar com segurança os arquivos credenciais.json e token.json
+
+Garantir conectividade com Google Calendar via HTTPS
+
+👨🏻‍💻 Desenvolvedor
+
+Murilo Francisco da SilvaE-mail: murilodevweb@gmail.comLinkedIn: https://www.linkedin.com/in/murilofrancisco/
+
+Projeto: Sistema Marcato - EMUFRNVersão: 1.0.0Hospedagem atual: https://ismcursos.com/marcato
+
+Esta documentação é parte oficial do sistema e deve acompanhar futuras atualizações, correções e integrações institucionais.
