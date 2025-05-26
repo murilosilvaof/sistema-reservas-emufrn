@@ -1,0 +1,110 @@
+# 📘 Sistema Marcato - Escola de Música da UFRN
+
+**Marcato** é um sistema web desenvolvido para gerenciar reservas de salas e auditórios da Escola de Música da UFRN, com confirmação por e-mail e integração ao Google Calendar institucional.
+
+---
+
+## ✨ Visão Geral
+
+Este sistema permite que alunos, professores e técnicos agendem espaços da escola de forma prática, com confirmação online e sincronização automática com o Google Agenda da produção (`producao@musica.ufrn.br`).
+
+Desenvolvido com:
+- PHP (com Composer)
+- JavaScript
+- MySQL
+- PHPMailer
+- Google API Client
+
+---
+
+## 📁 Estrutura de Arquivos
+
+| Arquivo/Pasta          | Função                                                                 |
+|------------------------|------------------------------------------------------------------------|
+| `index.html`           | Tela inicial com calendário e seleção de espaços                       |
+| `formulario.html`      | Formulário com campos de identificação e reserva                       |
+| `processa_reserva.php` | Insere a reserva no banco e envia e-mail de confirmação                |
+| `resposta.php`         | Confirma ou recusa a reserva e atualiza banco + Google Calendar        |
+| `send_email.php`       | Teste alternativo para envio de e-mail (pode ser opcional)             |
+| `get_token.php`        | Faz autenticação OAuth e gera o token do Google                        |
+| `credenciais.json`     | Credenciais da Google API (NÃO PUBLICAR no repositório)                |
+| `token.json`           | Token OAuth2 salvo após autenticação                                   |
+| `vendor/`              | Bibliotecas externas instaladas pelo Composer                          |
+| `composer.json`        | Lista de dependências do projeto                                       |
+
+---
+
+## 🛠 Banco de Dados
+
+### Tabela: `reservas_espacos`
+
+| Campo        | Tipo       | Descrição                           |
+|--------------|------------|--------------------------------------|
+| id           | INT (PK)   | Identificador da reserva             |
+| nome         | VARCHAR    | Nome do solicitante                  |
+| instrumento  | VARCHAR    | Tipo de instrumento usado            |
+| matricula    | VARCHAR    | Matrícula do aluno                   |
+| email        | VARCHAR    | E-mail do solicitante                |
+| sala         | VARCHAR    | Sala ou auditório reservado          |
+| tipo_evento  | VARCHAR    | Tipo (ensaio, recital, apresentação) |
+| perfil       | VARCHAR    | Perfil: aluno, professor, técnico    |
+| dia          | DATE       | Data da reserva                      |
+| horario      | TIME       | Horário da reserva                   |
+| obs          | TEXT       | Observações / nome do evento         |
+| status       | VARCHAR    | Status: `pendente`, `confirmada`, `recusada` |
+
+---
+
+## 🔐 Requisitos no Servidor
+
+- PHP 7.4 ou superior
+- Suporte a `cURL` e `openssl`
+- MySQL
+- Permissão de escrita em `token.json`
+- Envio de e-mails via SMTP (porta 587)
+- Acesso ao Composer (ou upload prévio da pasta `vendor/`)
+
+---
+
+## 🧪 Como Testar
+
+1. Acesse `index.html` no navegador
+2. Escolha espaço, data e horário
+3. Preencha o formulário com os dados da reserva
+4. Um e-mail será enviado ao responsável com dois botões: `Confirmar` e `Recusar`
+5. Ao clicar em confirmar, o sistema:
+   - Atualiza o banco (`status = confirmada`)
+   - Cria o evento na agenda Google institucional
+
+---
+
+## 🛡 Segurança
+
+- **`credenciais.json` e `token.json`** não devem ser versionados no GitHub.
+- Ideal armazená-los em diretórios protegidos no servidor.
+
+---
+
+## 🛠 Manutenção
+
+- Em caso de expiração do token, reautenticar em `get_token.php`
+- Banco pode ser exportado pelo phpMyAdmin
+- Atualizações visuais são feitas diretamente nos arquivos HTML e CSS
+
+---
+
+## 👤 Autor
+
+- **Nome:** Murilo Francisco da Silva  
+- **E-mail:** murilodevweb@gmail.com  
+- **Projeto:** Sistema Marcato - EMUFRN  
+- **Versão:** 1.0  
+- **Hospedagem atual:** https://ismcursos.com/marcato (local,atualizar para o servidor oficial)
+
+---
+
+## 📎 Licença
+
+Uso institucional - Escola de Música da UFRN.  
+Não utilizar ou distribuir sem autorização da coordenação.
+
