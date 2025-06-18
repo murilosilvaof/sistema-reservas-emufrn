@@ -1,48 +1,29 @@
 <?php
-require 'vendor/autoload.php';
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-use Google\Client;
+require __DIR__ . '/vendor/autoload.php';
 
-function getClient() {
-    $client = new Client();
-    $client->setApplicationName('EMUFRN Reserva');
-    $client->setScopes(Google\Service\Calendar::CALENDAR);
-    $client->setAuthConfig('credentials.json');
-    $client->setAccessType('offline');
-    $client->setPrompt('select_account consent');
+$client = new Google_Client();
+$client->setAuthConfig(__DIR__ . '/credenciais.json');
+$client->addScope(Google_Service_Calendar::CALENDAR);
+$client->setAccessType('offline');
+$client->setPrompt('select_account consent');
+$client->setRedirectUri('https://ismcursos.com/marcato/get_token.php');
 
-    // Carregar o token previamente salvo
-    $tokenPath = 'token.json';
-    if (file_exists($tokenPath)) {
-        $accessToken = json_decode(file_get_contents($tokenPath), true);
-        $client->setAccessToken($accessToken);
+if (!isset($_GET['code'])) {
+    $authUrl = $client->createAuthUrl();
+    echo "<a href='$authUrl'>Clique aqui para autorizar o acesso ao Google Calendar</a>";
+    exit;
+} else {
+    $token = $client->fetchAccessTokenWithAuthCode($_GET['code']);
+    if (!isset($token['error'])) {
+        file_put_contents(__DIR__ . '/token.json', json_encode($token));
+        echo "<h3 style='color: green;'>✅ Token gerado com sucesso!</h3>";
+    } else {
+        echo "<h3 style='color: red;'>❌ Erro ao gerar token:</h3>";
+        var_dump($token);
     }
-
-    // Verificar se o token é válido
-    if ($client->isAccessTokenExpired()) {
-        if ($client->getRefreshToken()) {
-            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
-        } else {
-            // Solicitar autorização
-            $authUrl = $client->createAuthUrl();
-            echo "Acesse o link: $authUrl\n";
-            echo "Digite o código de autenticação: ";
-            $authCode = trim(fgets(STDIN));
-
-            // Trocar o código por um token
-            $accessToken = $client->fetchAccessTokenWithAuthCode($authCode);
-            $client->setAccessToken($accessToken);
-
-            // Salvar o token para futuras execuções
-            if (!file_exists(dirname($tokenPath))) {
-                mkdir(dirname($tokenPath), 0700, true);
-            }
-            file_put_contents($tokenPath, json_encode($client->getAccessToken()));
-        }
-    }
-    return $client;
 }
-
-$client = getClient();
-echo "Token obtido com sucesso!\n";
 ?>
