@@ -1,4 +1,17 @@
 <?php
+
+$dia = $_POST['dia'] ?? '';
+
+if ($dia === '' || $dia === '0000-00-00') {
+  die('Erro: Data inválida! Por favor, escolha um dia válido.');
+}
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
@@ -18,11 +31,11 @@ $dia = $_POST['dia'] ?? '';
 $horario = $_POST['horario'] ?? '';
 $obs = $_POST['obs'] ?? '';
 
-// Conexão com banco
+// Conexão com banco de dados do servidor (trocar pelo da emufrn)
 $servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "reservas_emufrn";
+$username = "u563793805_marcato_emufrn";
+$password = "Cceemufrn@2022";
+$dbname = "u563793805_marcato_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -63,10 +76,9 @@ $mail->addAddress('producao@musica.ufrn.br', 'Produção Musica - EMUFRN');
     // Conteúdo do e-mail
     $mail->isHTML(true);
     $mail->Subject = "Nova Solicitacao de Reserva";
- //caminho do arquivo php de reservas   
-$link_confirmar = "http://localhost/sistema_reservas_emufrn/resposta.php?id={$id_nova_reserva}&acao=confirmar";
-
-$link_recusar = "http://localhost/sistema_reservas_emufrn/resposta.php?id={$id_nova_reserva}&acao=recusar";
+ //caminho do arquivo php de reservas   (substituir pelo da emufrn)
+$link_confirmar = "https://ismcursos.com/marcato/resposta.php?id={$id_nova_reserva}&acao=confirmar";
+$link_recusar = "https://ismcursos.com/marcato/resposta.php?id={$id_nova_reserva}&acao=recusar";
 
 
 
@@ -163,7 +175,7 @@ $mail->Body = "
 <div class="card">
   <?php if ($salvo_no_banco): ?>
     <h1>Reserva enviada com sucesso!</h1>
-    <p>Sua reserva foi registrada. <?php echo ($enviado ? "E o e-mail foi enviado com sucesso!" : "Porém, não conseguimos enviar o e-mail de confirmação."); ?></p>
+    <p>Sua reserva foi registrada. <?php echo ($enviado ? "E o e-mail foi enviado com sucesso! Aguarde uma resposta da coordenação do sistema Marcato/EMUFRN" : "Porém, não conseguimos enviar o e-mail de confirmação."); ?></p>
   <?php else: ?>
     <h1>Erro ao registrar reserva!</h1>
     <p>Infelizmente não conseguimos salvar sua reserva. Tente novamente mais tarde.</p>
