@@ -8,66 +8,51 @@
 </head>
 <body>
 
-<!-- Tela de carregamento inicial -->
 <div id="loader">
   <h2>🎶 Carregando Sistema de Reservas...</h2>
 </div>
 
-
 <header class="top-bar">
   <div class="logo-container">
-    <img src="logo-marcato-emufrn.png" alt="Logo Marcato" class="logo-marcato">
+    <img src="assets/logo-marcato-emufrn.png" alt="Logo Marcato" class="logo-marcato">
     <div class="logo-divider"></div>
-    <img src="logo-emufrn.png" alt="Logo EM UFRN" class="logo-emufrn">
+    <img src="assets/logo-emufrn.png" alt="Logo EM UFRN" class="logo-emufrn">
   </div>
   <span class="user-id">Aluno | 20190243584</span>
 </header>
 
+<div class="select-area">
+  <label for="salaSelect">🎶 Escolha um local para ver os horários disponíveis:</label>
+  <select id="salaSelect">
+    <option value="">Selecione uma sala</option>
+    <option value="Auditório Onofre Lopes">Auditório Onofre Lopes</option>
+    <option value="Auditório Oriano de Almeida">Auditório Oriano de Almeida</option>
+  </select>
+</div>
 
-
-  <!-- Área de escolha -->
-  <div class="select-area">
-    <label for="salaSelect">🎶 Escolha um local para ver os horários disponíveis:</label>
-    <select id="salaSelect">
-      <option value="">Selecione uma sala</option>
-      <option value="Auditório Onofre Lopes">Auditório Onofre Lopes</option>
-      <option value="Auditório Oriano de Almeida">Auditório Oriano de Almeida</option>
-    </select>
-  </div>
-
-  <!-- Área do calendário -->
-
-
-  <div class="calendar-container" id="calendarContainer">
-    <h2 id="tituloMes" style="text-align:center; margin-bottom: 20px;"></h2>
-    <div id="calendar"></div>
-  </div>
-
-</div> </div>
-<!-- Fim do conteúdo -->
-
-<!-- Scripts -->
-<script src="script.js"></script>
+<div class="calendar-container" id="calendarContainer" style="display: none;">
+  <h2 id="tituloMes" style="text-align:center; margin-bottom: 20px;"></h2>
+  <div id="calendar"></div>
+</div>
 
 <script>
-  // Loader inicial da página
   window.addEventListener("load", function() {
     document.getElementById('loader').style.display = "none";
-    document.getElementById('content').style.display = "block";
+    document.getElementById('calendarContainer').style.display = "block";
   });
 
-  // Animação suave ao mudar a sala (apenas fade)
   const salaSelect = document.getElementById('salaSelect');
   const calendarContainer = document.getElementById('calendarContainer');
 
   salaSelect.addEventListener('change', () => {
     calendarContainer.style.opacity = 0;
     setTimeout(() => {
-      // Aqui normalmente atualizaria o conteúdo
       calendarContainer.style.opacity = 1;
     }, 300);
   });
 </script>
 
+<!-- Incluindo o script do calendário -->
+<script src="script.js"></script>
 </body>
 </html>
