@@ -103,7 +103,7 @@ button:hover {
 <div class="topo-logo" style="background-color: #006699;
  padding: 0; border-radius: 10px; text-align: center; margin-bottom: 20px;">
   <img 
-    src="logo-form-emufrn.png" 
+    src="assets/logo-form-emufrn.png" 
     alt="Topo Marcato EMUFRN" 
     style="width: 100%; max-width: 1000px; height: auto; display: block; margin: auto; border-radius: 10px;"
   />
@@ -205,6 +205,18 @@ button:hover {
       desc.innerHTML = "<strong>Espaço não identificado</strong><br>Capacidade: Indefinida";
     }
   </script>
+  <script>
+  const formulario = document.querySelector("form");
+  formulario.addEventListener("submit", (e) => {
+    const diaInput = document.getElementById("diaInput").value;
+    
+    if (!diaInput || diaInput === "0000-00-00") {
+      e.preventDefault();
+      alert("Por favor, escolha um dia válido para a reserva!");
+    }
+  });
+</script>
+
   
 </body>
 </html>
