@@ -32,10 +32,10 @@ $horario = $_POST['horario'] ?? '';
 $obs = $_POST['obs'] ?? '';
 
 // Conexão com banco de dados do servidor (trocar pelo da emufrn)
-$servername = "localhost";
-$username = "u563793805_marcato_emufrn";
-$password = "Cceemufrn@2022";
-$dbname = "u563793805_marcato_db";
+$servername = 
+$username = 
+$password =
+$dbname = 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -62,7 +62,7 @@ $mail->isSMTP();
 $mail->Host       = 'smtp.gmail.com'; // ou outro, se for diferente
 $mail->SMTPAuth   = true;
 $mail->Username   = 'producao@musica.ufrn.br';
-$mail->Password   = 'tfan kvrm edjm uibm';
+$mail->Password   = 
 $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
 $mail->Port       = 587;
 
