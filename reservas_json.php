@@ -10,10 +10,7 @@ if (!$sala) {
 
 // Conexão MySQL
 $mysqli = new mysqli(
-  "localhost",
-  "u563793805_marcato_emufrn",
-  "Cceemufrn@2022",
-  "u563793805_marcato_db"
+
 );
 if ($mysqli->connect_error) {
   http_response_code(500);
