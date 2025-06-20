@@ -15,9 +15,9 @@ use Google\Service\Calendar\Event as Google_Service_Calendar_Event;
 
 // Configuração do banco (Hostinger)
 $servername = "localhost";
-$username   = "u563793805_marcato_emufrn";
-$password   = "Cceemufrn@2022";
-$dbname     = "u563793805_marcato_db";
+$username   = 
+$password   =
+$dbname     = 
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
