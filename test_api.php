@@ -5,8 +5,8 @@ require_once 'ApiHelper.php';  // Inclui a classe que você criou
 $api_base_url = "https://api.info.ufrn.br";
 $api_auth_url = "https://autenticacao.info.ufrn.br/authz-server/oauth/token";
 $api_client_id = "emprestimos-escola-musica-Ct0Aa8QB6J392d61";
-$api_client_secret = "IdYnZtw3XNasadasdmpkykiFGVDRWPCr3C7yK";
-$api_key = "N45QQxVisYX4CUh7lasaegeNTasn4fBkeO3jlP5";
+$api_client_secret = 
+$api_key = 
 
 // Exemplo de endpoint (tem que ver com a UFRN qual endpoint usar)
 $endpoint = "/v1/seu-endpoint-de-teste";
