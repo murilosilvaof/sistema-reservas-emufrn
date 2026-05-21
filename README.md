@@ -31,9 +31,7 @@ Este projeto é um sistema desenvolvido para a **Escola de Música da UFRN (EMUF
 - PHPMailer (para envio de e-mails)
 - Git e GitHub
 
-## 🚀 Acesse o sistema diretamente pelo link : 
 
-https://ismcursos.com/marcato/index.html
 
 ## 🚀 Como rodar o projeto localmente :
 
